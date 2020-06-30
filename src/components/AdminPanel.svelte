@@ -1,21 +1,15 @@
 <template>
-  {#if isLoading}
-    <h2>Loading...</h2>
-  {/if}
-
-  {#if isLogin && !isLoading}
+  {#if isLogin}
     <h2>Logged</h2>
   {/if}
 
-  {#if !isLogin && !isLoading}
+  {#if !isLogin && !isChecking}
     <LoginForm
       on:startLogin={startLoading}
       on:stopLogin={stopLoading}
       on:success={successLogin}
-      on:fail={failLogin}
     />
   {/if}
-
 </template>
 
 <script>
@@ -25,21 +19,13 @@
 
   import LoginForm from './LoginForm.svelte'
 
-  let isLoading = false
+  let isChecking = true
   let isLogin = false
 
-  onMount(() => {
-    me()
+  onMount(async () => {
+    await me()
+    isChecking = false
   })
-
-  // authToken.subscribe((token) => {
-  //   console.log('jwt token -', token)
-  //   token && (isLogin = true)
-  // })
-
-  function eventHandler(event) {
-    alert(event.detail.payload)
-  }
 
   const startLoading = () => isLoading = true
   const stopLoading = () => isLoading = false
@@ -47,9 +33,7 @@
   const failLogin = () => isLogin = false
 
   async function me() {
-    isLoading = true
     const response = await api.auth.me();
-    isLoading = false
     if(response.ok) {
       isLogin = true
       const { data } = await response.json();
@@ -60,19 +44,6 @@
     }
   }
 
-  async function handleSubmit(evt) {
-    isLoading = true
-    const response = await api.auth.login(new FormData(evt.target));
-    isLoading = false
-    if(response.ok) {
-      isLogin = true
-      const { data } = await response.json()
-      localStorage.setItem('token', data.jwt)
-    } else {
-      isLogin = false
-      errorMessage = 'Неверный логин или пароль'
-    }
-  }
 </script>
 
 <style lang="scss">

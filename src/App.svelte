@@ -1,9 +1,9 @@
 <svelte:window on:popstate={ handlerBackNavigation }/>
 <div class="app">
-  <header>
+  <!-- <header>
     <RouterLink page={{ path: '/', name: 'Home' }}/>
     <RouterLink page={{ path: '/#/admin', name: 'Auth' }}/>
-  </header>
+  </header> -->
   <main>
     <svelte:component this={router[$curRoute]}/>
   </main>
@@ -35,6 +35,11 @@
     height: 100vh;
   }
 	main {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 		margin: 0 auto;
 	}
 

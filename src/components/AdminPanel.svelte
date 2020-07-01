@@ -1,14 +1,10 @@
 <template>
   {#if isLogin}
-    <h2>Logged</h2>
+    <UploadForm />
   {/if}
 
   {#if !isLogin && !isChecking}
-    <LoginForm
-      on:startLogin={startLoading}
-      on:stopLogin={stopLoading}
-      on:success={successLogin}
-    />
+    <LoginForm on:success={successLogin} />
   {/if}
 </template>
 
@@ -18,6 +14,7 @@
   import api from '../api'
 
   import LoginForm from './LoginForm.svelte'
+  import UploadForm from './UploadForm.svelte'
 
   let isChecking = true
   let isLogin = false
@@ -27,10 +24,7 @@
     isChecking = false
   })
 
-  const startLoading = () => isLoading = true
-  const stopLoading = () => isLoading = false
   const successLogin = () => isLogin = true
-  const failLogin = () => isLogin = false
 
   async function me() {
     const response = await api.auth.me();

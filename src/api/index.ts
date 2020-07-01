@@ -26,6 +26,18 @@ export default {
     }
   },
 
+  upload (data: FormData) {
+    return fetch(`${config.apiUrl}/upload`, {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
+      headers: {
+        'Authorization': localStorage.getItem('token')
+      },
+      body: data
+    })
+  },
+
   slides: {
     getUrl() {
       return `${config.apiUrl}/slides`
@@ -36,7 +48,8 @@ export default {
         mode: 'cors',
         credentials: 'include',
         headers: {
-          'Authorization': localStorage.getItem('token')
+          'Authorization': localStorage.getItem('token'),
+          'Content-Type': 'multipart/form-data'
         }
       })
     }

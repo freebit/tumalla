@@ -29,6 +29,10 @@ module.exports = (app) => {
     }
   })
 
+  app.post('/upload', formDataParser, isAuth, async (req, res, next) => {
+    console.log('upload body -', req.body)
+  })
+
   app.get('/slides', isAuth, async (req, res, next) => {
     try {
       const { rows } = await SlideTable.getAll()

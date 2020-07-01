@@ -41,7 +41,6 @@
       dispatch('success', { payload: 'success' })
     } else {
       errorMessage = 'Неверный логин или пароль'
-      // dispatch('fail', { payload: 'fail' })
     }
   }
 </script>
